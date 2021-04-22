@@ -2,6 +2,7 @@ import React from "react";
 
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import PostAuthor from "./PostAuthor";
 
 import { selectPosts } from "./postSlice";
 
@@ -34,7 +35,9 @@ const PostList = () => {
           <Link to={`/post/${post.id}`}>
             <h3>{post.title}</h3>
           </Link>
-          <h6>By : {post.author}</h6>
+          <h6>
+            By : <PostAuthor userID={post.author} />
+          </h6>
           <p>{post.content}</p>
         </article>
       ))}

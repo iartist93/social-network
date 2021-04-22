@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
+import { selectUsers } from "../users/userSlice";
 import { editPost } from "./postSlice";
 
 const EditPost = () => {
@@ -10,6 +11,8 @@ const EditPost = () => {
   const post = useSelector((state) =>
     state.posts.list.find((post) => post.id === postID.toString())
   );
+
+  const users = useSelector(selectUsers);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -25,7 +28,7 @@ const EditPost = () => {
   const isEmpty = () =>
     title.trim().length === 0 && content.trim().length === 0;
 
-  const editPost = (event) => {
+  const updatePost = (event) => {
     if (title && content) {
       event.preventDefault();
       dispatch(editPost(postID, title, content, author));
@@ -78,11 +81,13 @@ const EditPost = () => {
               value={author}
               onChange={handleAuthorChange}
             >
-              <option value="ahmad"> Ahmad </option>
-              <option value="ayman"> Ayman </option>
-              <option value="islam"> Islan </option>
+              {users.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
             </select>
-            <button onClick={editPost} disabled={isEmpty()}>
+            <button onClick={updatePost} disabled={isEmpty()}>
               Edit Post
             </button>
           </form>

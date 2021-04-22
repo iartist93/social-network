@@ -20,7 +20,7 @@ const UserPosts = () => {
         alignItems: "center"
       }}
     >
-      <h1>{name} Posts</h1>
+      <h1>{name}'s Posts</h1>
 
       <ul>
         {posts.map((post) => (

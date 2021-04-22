@@ -4,8 +4,8 @@ export const postSlice = createSlice({
   name: "posts",
   initialState: {
     list: [
-      { id: "1", title: "post 1", content: "Post 1 content", author: "Ayman" },
-      { id: "2", title: "post 2", content: "Post 2 content", author: "Ahmad" }
+      { id: "1", title: "post 1", content: "Post 1 content", author: "1" },
+      { id: "2", title: "post 2", content: "Post 2 content", author: "2" }
     ]
   },
   reducers: {

@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+import PostAuthor from "./PostAuthor";
 
 const ViewPost = () => {
   let { postID } = useParams();
-
   // subscibe to specific state data
   // don't subscribe to the whole posts, as this will cause re-render each time posts modified
   const post = useSelector((state) =>
@@ -35,11 +35,12 @@ const ViewPost = () => {
           }}
         >
           <h3>{post.title}</h3>
-          <h6>By : {post.author}</h6>
+          <h6>
+            By : <PostAuthor userID={post.author} />
+          </h6>
           <p>{post.content}</p>
           <Link to={`/editpost/${postID}`} className="button">
-            {" "}
-            Edit{" "}
+            Edit
           </Link>
         </article>
       )}
