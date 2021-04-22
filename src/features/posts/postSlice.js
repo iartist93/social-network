@@ -18,14 +18,15 @@ export const postSlice = createSlice({
       // return an object that content the payload
       prepare: (title, content, author) => {
         const id = nanoid();
-        const date = new Date().toISOString();
+        const createdAt = new Date().toISOString();
         return {
           payload: {
             id,
             title,
             content,
             author,
-            date
+            createdAt,
+            edit: false
           }
         };
       }
@@ -34,10 +35,14 @@ export const postSlice = createSlice({
       reducer: (state, action) => {
         const { id, title, content, author } = action.payload;
         const post = state.list.find((post) => post.id === id);
+        const editedAt = new Date().toISOString();
+
         if (post) {
           post.title = title;
           post.content = content;
           post.author = author;
+          post.edit = true;
+          post.editedAt = editedAt;
         }
       },
       prepare: (id, title, content, author) => {

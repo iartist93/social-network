@@ -2,12 +2,12 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { formatDistance, formatRelative } from "date-fns";
 
-const PostTimestamp = ({ postID }) => {
+const PostTimestamp = ({ postID, edited = false }) => {
   const post = useSelector((state) =>
     state.posts.list.find((post) => post.id === postID)
   );
 
-  const postDate = new Date(post.date);
+  const postDate = edited ? new Date(post.editedAt) : new Date(post.createdAt);
   const currentDate = new Date();
   const postDateMS = postDate.getTime();
   const currentDateMS = currentDate.getTime();

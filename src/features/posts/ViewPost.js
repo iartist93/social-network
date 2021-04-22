@@ -38,7 +38,8 @@ const ViewPost = () => {
           <h3>{post.title}</h3>
           <h6>
             By : <PostAuthor userID={post.author} />{" "}
-            <PostTimestamp postID={post.id} />
+            {post.edit && <span>Last edit </span>}{" "}
+            <PostTimestamp postID={post.id} edited={post.edit} />
           </h6>
           <p>{post.content}</p>
           <Link to={`/editpost/${postID}`} className="button">
