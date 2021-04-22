@@ -1,40 +1,35 @@
-import { random } from "faker";
 import React, { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  postSlice,
-  selectPosts,
-  addPost,
-  removePost,
-  updatePost
-} from "./postSlice";
+import { updatePost } from "./postSlice";
 
-import { generateID } from "../../utils/utils";
+import { useHistory, useParams } from "react-router-dom";
 
-const CreatePost = () => {
-  const posts = useSelector(selectPosts);
+const EditPost = () => {
+  let postID = useParams();
+  postID = parseInt(postID.toString(), 10);
+
+  const post = useSelector((state) =>
+    state.posts.list.find((post) => post.id === postID)
+  );
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("ayman");
+  const [title, setTitle] = useState(post.title);
+  const [content, setContent] = useState(post.content);
+  const [author, setAuthor] = useState(post.author);
 
   const handleTitleChange = (event) => setTitle(event.target.value);
   const handleContentChange = (event) => setContent(event.target.value);
   const handleAuthorChange = (event) => setAuthor(event.target.value);
 
-  const addNewPost = (event) => {
-    // simple validation
+  const editPost = (event) => {
     if (title && content) {
       event.preventDefault();
-      const post = { id: generateID(), title, author, content };
-      dispatch(addPost(post));
-      // reset fields
-      setTitle("");
-      setContent("");
-      console.log(post);
+      const post = { id: postID, title, author, content };
+      dispatch(updatePost(post));
+      history.goBack();
     }
   };
 
@@ -87,12 +82,12 @@ const CreatePost = () => {
           <option value="ayman"> Ayman </option>
           <option value="islam"> Islan </option>
         </select>
-        <button onClick={addNewPost} disabled={isEmpty()}>
-          Add Post
+        <button onClick={editPost} disabled={isEmpty()}>
+          Edit Post
         </button>
       </form>
     </div>
   );
 };
 
-export default CreatePost;
+export default EditPost;

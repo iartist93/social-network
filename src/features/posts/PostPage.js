@@ -1,12 +1,19 @@
 import React from "react";
-
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
 import { selectPosts } from "./postSlice";
 
-const Post = () => {
-  const posts = useSelector(selectPosts);
+const PostPage = () => {
+  let { postID } = useParams();
+  postID = parseInt(postID.toString(), 10);
+
+  // subscibe to specific state data
+  // don't subscribe to the whole posts, as this will cause re-render each time posts modified
+  const post = useSelector((state) =>
+    state.posts.list.find((post) => post.id === postID)
+  );
+
+  console.log(post);
 
   return (
     <div
@@ -16,10 +23,10 @@ const Post = () => {
         alignItems: "center"
       }}
     >
-      <h1>Posts</h1>
-      {posts.map((post) => (
+      {!post ? (
+        <div> Post not found! </div>
+      ) : (
         <article
-          key={post.id}
           style={{
             minHeight: 150,
             width: 500,
@@ -31,15 +38,14 @@ const Post = () => {
             paddingBottom: 5
           }}
         >
-          <Link to={`/posts/${post.id}`}>
-            <h3>{post.title}</h3>
-          </Link>
+          <h3>{post.title}</h3>
           <h6>By : {post.author}</h6>
           <p>{post.content}</p>
+          <Link to={`/editpost/${postID}`}> Edit </Link>
         </article>
-      ))}
+      )}
     </div>
   );
 };
 
-export default Post;
+export default PostPage;
