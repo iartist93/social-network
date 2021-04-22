@@ -1,4 +1,4 @@
-# The social Network
+# The Social Network
 
 Learning Redux with React from the offical redux documentation tutorial.
 

@@ -27,7 +27,7 @@ function App() {
           <Route exact path="/posts/:postID">
             <PostPage />
           </Route>
-          <Route exact path="/editposts/:postID">
+          <Route exact path="/editpost/:postID">
             <EditPost />
           </Route>
 

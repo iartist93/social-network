@@ -7,12 +7,13 @@ import { updatePost } from "./postSlice";
 import { useHistory, useParams } from "react-router-dom";
 
 const EditPost = () => {
-  let postID = useParams();
+  let { postID } = useParams();
   postID = parseInt(postID.toString(), 10);
 
   const post = useSelector((state) =>
     state.posts.list.find((post) => post.id === postID)
   );
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -25,6 +26,8 @@ const EditPost = () => {
   const handleAuthorChange = (event) => setAuthor(event.target.value);
 
   const editPost = (event) => {
+    console.log(title, content, author);
+
     if (title && content) {
       event.preventDefault();
       const post = { id: postID, title, author, content };
