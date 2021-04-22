@@ -25,9 +25,10 @@ const EditPost = () => {
   const handleContentChange = (event) => setContent(event.target.value);
   const handleAuthorChange = (event) => setAuthor(event.target.value);
 
-  const editPost = (event) => {
-    console.log(title, content, author);
+  const isEmpty = () =>
+    title.trim().length === 0 && content.trim().length === 0;
 
+  const editPost = (event) => {
     if (title && content) {
       event.preventDefault();
       const post = { id: postID, title, author, content };
@@ -35,9 +36,6 @@ const EditPost = () => {
       history.goBack();
     }
   };
-
-  const isEmpty = () =>
-    title.trim().length === 0 && content.trim().length === 0;
 
   return (
     <div
@@ -75,12 +73,7 @@ const EditPost = () => {
           onChange={handleContentChange}
         />
         <label htmlFor="postAuthor"> Author </label>
-        <select
-          id="postAuthor"
-          value="ayman"
-          value={author}
-          onChange={handleAuthorChange}
-        >
+        <select id="postAuthor" value={author} onChange={handleAuthorChange}>
           <option value="ahmad"> Ahmad </option>
           <option value="ayman"> Ayman </option>
           <option value="islam"> Islan </option>

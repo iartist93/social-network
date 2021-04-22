@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ActiveModelSerializer } from "miragejs";
 
 export const postSlice = createSlice({
   name: "posts",
@@ -14,7 +13,6 @@ export const postSlice = createSlice({
       state.list.push(action.payload);
     },
     updatePost: (state, action) => {
-      console.log(action.payload);
       const postID = action.payload.id;
       state.list = state.list.map((post) =>
         post.id === postID ? action.payload : post

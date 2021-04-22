@@ -5,12 +5,15 @@ export const Navbar = () => {
   return (
     <nav>
       <section>
-        <Link to="/">
-          <h1>The Social Network</h1>
-        </Link>
+        <h1>
+          <Link to="/">The Social Network</Link>
+        </h1>
 
         <div className="navContent">
-          <div className="navLinks"></div>
+          <div className="navLinks">
+            <Link to="/">Posts</Link>
+            <Link to="/users">Users</Link>
+          </div>
         </div>
       </section>
     </nav>

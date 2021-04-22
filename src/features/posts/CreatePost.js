@@ -3,13 +3,7 @@ import React, { useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-  postSlice,
-  selectPosts,
-  addPost,
-  removePost,
-  updatePost
-} from "./postSlice";
+import { selectPosts, addPost } from "./postSlice";
 
 import { generateID } from "../../utils/utils";
 

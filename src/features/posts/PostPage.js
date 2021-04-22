@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { selectPosts } from "./postSlice";
 
 const PostPage = () => {
   let { postID } = useParams();
@@ -12,8 +11,6 @@ const PostPage = () => {
   const post = useSelector((state) =>
     state.posts.list.find((post) => post.id === postID)
   );
-
-  console.log(post);
 
   return (
     <div
@@ -41,7 +38,10 @@ const PostPage = () => {
           <h3>{post.title}</h3>
           <h6>By : {post.author}</h6>
           <p>{post.content}</p>
-          <Link to={`/editpost/${postID}`}> Edit </Link>
+          <Link to={`/editpost/${postID}`} className="button">
+            {" "}
+            Edit{" "}
+          </Link>
         </article>
       )}
     </div>
