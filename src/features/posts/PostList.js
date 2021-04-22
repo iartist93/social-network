@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import PostAuthor from "./PostAuthor";
 
 import { selectPosts } from "./postSlice";
+import PostTimestamp from "./PostTimestamp";
 
 const PostList = () => {
   const posts = useSelector(selectPosts);
@@ -36,7 +37,8 @@ const PostList = () => {
             <h3>{post.title}</h3>
           </Link>
           <h6>
-            By : <PostAuthor userID={post.author} />
+            By <PostAuthor userID={post.author} /> {"  "}
+            <PostTimestamp postID={post.id} />
           </h6>
           <p>{post.content}</p>
         </article>

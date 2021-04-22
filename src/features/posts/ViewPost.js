@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import PostAuthor from "./PostAuthor";
+import PostTimestamp from "./PostTimestamp";
 
 const ViewPost = () => {
   let { postID } = useParams();
@@ -36,7 +37,8 @@ const ViewPost = () => {
         >
           <h3>{post.title}</h3>
           <h6>
-            By : <PostAuthor userID={post.author} />
+            By : <PostAuthor userID={post.author} />{" "}
+            <PostTimestamp postID={post.id} />
           </h6>
           <p>{post.content}</p>
           <Link to={`/editpost/${postID}`} className="button">

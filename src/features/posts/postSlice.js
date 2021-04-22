@@ -4,8 +4,8 @@ export const postSlice = createSlice({
   name: "posts",
   initialState: {
     list: [
-      { id: "1", title: "post 1", content: "Post 1 content", author: "1" },
-      { id: "2", title: "post 2", content: "Post 2 content", author: "2" }
+      // { id: "1", title: "post 1", content: "Post 1 content", author: "1" },
+      // { id: "2", title: "post 2", content: "Post 2 content", author: "2" }
     ]
   },
   reducers: {
@@ -18,12 +18,14 @@ export const postSlice = createSlice({
       // return an object that content the payload
       prepare: (title, content, author) => {
         const id = nanoid();
+        const date = new Date().toISOString();
         return {
           payload: {
             id,
             title,
             content,
-            author
+            author,
+            date
           }
         };
       }
