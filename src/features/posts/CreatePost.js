@@ -5,8 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { selectPosts, addPost } from "./postSlice";
 
-import { generateID } from "../../utils/utils";
-
 const CreatePost = () => {
   const posts = useSelector(selectPosts);
   const dispatch = useDispatch();
@@ -23,12 +21,10 @@ const CreatePost = () => {
     // simple validation
     if (title && content) {
       event.preventDefault();
-      const post = { id: generateID(), title, author, content };
-      dispatch(addPost(post));
+      dispatch(addPost(title, content, author));
       // reset fields
       setTitle("");
       setContent("");
-      console.log(post);
     }
   };
 

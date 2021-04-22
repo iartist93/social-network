@@ -4,12 +4,11 @@ import { Link, useParams } from "react-router-dom";
 
 const PostPage = () => {
   let { postID } = useParams();
-  postID = parseInt(postID.toString(), 10);
 
   // subscibe to specific state data
   // don't subscribe to the whole posts, as this will cause re-render each time posts modified
   const post = useSelector((state) =>
-    state.posts.list.find((post) => post.id === postID)
+    state.posts.list.find((post) => post.id === postID.toString())
   );
 
   return (
