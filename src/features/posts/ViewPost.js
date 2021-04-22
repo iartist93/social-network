@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
-const PostPage = () => {
+const ViewPost = () => {
   let { postID } = useParams();
 
   // subscibe to specific state data
@@ -47,4 +47,4 @@ const PostPage = () => {
   );
 };
 
-export default PostPage;
+export default ViewPost;

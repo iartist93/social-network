@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
-import { updatePost } from "./postSlice";
+import { editPost } from "./postSlice";
 
 const EditPost = () => {
   let { postID } = useParams();
@@ -28,7 +28,7 @@ const EditPost = () => {
   const editPost = (event) => {
     if (title && content) {
       event.preventDefault();
-      dispatch(updatePost(postID, title, content, author));
+      dispatch(editPost(postID, title, content, author));
       history.goBack();
     }
   };
@@ -42,7 +42,6 @@ const EditPost = () => {
         textAlign: "center"
       }}
     >
-      {" "}
       {!post ? (
         <div> No post found! </div>
       ) : (

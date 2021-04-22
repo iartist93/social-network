@@ -1,27 +1,28 @@
-import { random } from "faker";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost } from "./postSlice";
+import { selectUsers, addUserPost } from "../users/userSlice";
 
-import { useSelector, useDispatch } from "react-redux";
-
-import { selectPosts, addPost } from "./postSlice";
-
-const CreatePost = () => {
-  const posts = useSelector(selectPosts);
+const AddPost = () => {
   const dispatch = useDispatch();
+
+  const users = useSelector(selectUsers);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("ayman");
+  const [author, setAuthor] = useState("1");
 
   const handleTitleChange = (event) => setTitle(event.target.value);
   const handleContentChange = (event) => setContent(event.target.value);
-  const handleAuthorChange = (event) => setAuthor(event.target.value);
+  const handleAuthorChange = (event) => setAuthor(event.currentTarget.value);
 
   const addNewPost = (event) => {
     // simple validation
     if (title && content) {
+      console.log(`Author = ${author}`);
       event.preventDefault();
       dispatch(addPost(title, content, author));
+      dispatch(addUserPost(author, title));
       // reset fields
       setTitle("");
       setContent("");
@@ -67,15 +68,12 @@ const CreatePost = () => {
           onChange={handleContentChange}
         />
         <label htmlFor="postAuthor"> Author </label>
-        <select
-          id="postAuthor"
-          value="ayman"
-          value={author}
-          onChange={handleAuthorChange}
-        >
-          <option value="ahmad"> Ahmad </option>
-          <option value="ayman"> Ayman </option>
-          <option value="islam"> Islan </option>
+        <select id="postAuthor" value={author} onChange={handleAuthorChange}>
+          {users.map((user) => (
+            <option key={user.id} value={user.id}>
+              {user.name}
+            </option>
+          ))}
         </select>
         <button onClick={addNewPost} disabled={isEmpty()}>
           Add Post
@@ -85,4 +83,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default AddPost;

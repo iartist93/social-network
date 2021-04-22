@@ -28,7 +28,7 @@ export const postSlice = createSlice({
         };
       }
     },
-    updatePost: {
+    editPost: {
       reducer: (state, action) => {
         const { id, title, content, author } = action.payload;
         const post = state.list.find((post) => post.id === id);
@@ -52,7 +52,6 @@ export const postSlice = createSlice({
   }
 });
 
-export const { addPost, removePost, updatePost } = postSlice.actions;
+export const { addPost, removePost, editPost } = postSlice.actions;
 export const selectPosts = (state) => state.posts.list;
-
 export default postSlice.reducer;

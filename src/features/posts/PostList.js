@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { selectPosts } from "./postSlice";
 
-const Post = () => {
+const PostList = () => {
   const posts = useSelector(selectPosts);
 
   return (
@@ -31,7 +31,7 @@ const Post = () => {
             paddingBottom: 5
           }}
         >
-          <Link to={`/posts/${post.id}`}>
+          <Link to={`/post/${post.id}`}>
             <h3>{post.title}</h3>
           </Link>
           <h6>By : {post.author}</h6>
@@ -42,4 +42,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default PostList;
