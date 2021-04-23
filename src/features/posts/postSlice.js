@@ -29,7 +29,12 @@ export const postSlice = createSlice({
             content,
             author,
             createdAt,
-            edit: false
+            edit: false,
+            reaction: {
+              like: 0,
+              celebrate: 0,
+              love: 0
+            }
           }
         };
       }
@@ -61,6 +66,34 @@ export const postSlice = createSlice({
     },
     reverseOrder: (state) => {
       state.config.reversed = !state.config.reversed;
+    },
+    addReact: {
+      reducer: (state, action) => {
+        const { reactionIndex, postID } = action.payload;
+        const post = state.list.find((post) => post.id === postID);
+
+        switch (reactionIndex) {
+          case 0:
+            post.reaction.like += 1;
+            break;
+          case 1:
+            post.reaction.celebrate += 1;
+            break;
+          case 2:
+            post.reaction.love += 1;
+            break;
+          default:
+            break;
+        }
+      },
+      prepare: (reactionIndex, postID) => {
+        return {
+          payload: {
+            reactionIndex,
+            postID
+          }
+        };
+      }
     }
   }
 });
@@ -69,7 +102,8 @@ export const {
   addPost,
   removePost,
   editPost,
-  reverseOrder
+  reverseOrder,
+  addReact
 } = postSlice.actions;
 export const selectPosts = (state) => state.posts.list;
 export default postSlice.reducer;

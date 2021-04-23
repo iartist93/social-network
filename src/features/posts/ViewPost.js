@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import PostAuthor from "./PostAuthor";
 import PostTimestamp from "./PostTimestamp";
+import PostReaction from "./PostReaction";
 
 const ViewPost = () => {
   let { postID } = useParams();
@@ -45,6 +46,7 @@ const ViewPost = () => {
           <Link to={`/editpost/${postID}`} className="button">
             Edit
           </Link>
+          <PostReaction post={post} />
         </article>
       )}
     </div>
