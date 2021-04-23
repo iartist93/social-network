@@ -6,7 +6,10 @@ export const postSlice = createSlice({
     list: [
       // { id: "1", title: "post 1", content: "Post 1 content", author: "1" },
       // { id: "2", title: "post 2", content: "Post 2 content", author: "2" }
-    ]
+    ],
+    config: {
+      reversed: true
+    }
   },
   reducers: {
     addPost: {
@@ -55,10 +58,18 @@ export const postSlice = createSlice({
           }
         };
       }
+    },
+    reverseOrder: (state) => {
+      state.config.reversed = !state.config.reversed;
     }
   }
 });
 
-export const { addPost, removePost, editPost } = postSlice.actions;
+export const {
+  addPost,
+  removePost,
+  editPost,
+  reverseOrder
+} = postSlice.actions;
 export const selectPosts = (state) => state.posts.list;
 export default postSlice.reducer;

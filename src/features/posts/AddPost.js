@@ -30,7 +30,7 @@ const AddPost = () => {
   };
 
   const isEmpty = () =>
-    title.trim().length === 0 && content.trim().length === 0;
+    title.trim().length === 0 || content.trim().length === 0;
 
   return (
     <div

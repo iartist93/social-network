@@ -1,14 +1,27 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PostAuthor from "./PostAuthor";
 
-import { selectPosts } from "./postSlice";
+import { selectPosts, reverseOrder } from "./postSlice";
 import PostTimestamp from "./PostTimestamp";
 
 const PostList = () => {
   const posts = useSelector(selectPosts);
+  const reversedPosts = posts
+    .slice()
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+
+  const dispatch = useDispatch();
+
+  const handleReverse = () => {
+    dispatch(reverseOrder());
+  };
+
+  const reversedState = useSelector((state) => state.posts.config.reversed);
+
+  const displayedPosts = reversedState ? reversedPosts : posts;
 
   return (
     <div
@@ -18,8 +31,29 @@ const PostList = () => {
         alignItems: "center"
       }}
     >
-      <h1>Posts</h1>
-      {posts.map((post) => (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+          height: 50
+        }}
+      >
+        <h1
+          style={{
+            flex: "1 1 auto",
+            textAlign: "center"
+          }}
+        >
+          Posts
+        </h1>
+        <div>
+          <button onClick={handleReverse}>Reverse</button>
+        </div>
+      </div>
+      {displayedPosts.map((post) => (
         <article
           key={post.id}
           style={{
