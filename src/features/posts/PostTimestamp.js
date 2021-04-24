@@ -12,8 +12,7 @@ const PostTimestamp = ({ postID, edited = false }) => {
   const post = useSelector((state) =>
     state.posts.list.find((post) => post.id === postID)
   );
-
-  const postDate = edited ? parseISO(post.editedAt) : parseISO(post.createdAt);
+  const postDate = edited ? parseISO(post.editedAt) : parseISO(post.date);
   const currentDate = new Date();
   const postDateMS = postDate.getTime();
   const currentDateMS = currentDate.getTime();
@@ -21,7 +20,7 @@ const PostTimestamp = ({ postID, edited = false }) => {
     (currentDateMS - postDateMS) / (1000 * 60 * 60 * 24)
   );
 
-  console.log(formatDistanceToNow(subDays(new Date(post.createdAt), 10)));
+  console.log(formatDistanceToNow(subDays(new Date(post.date), 10)));
 
   return (
     <>

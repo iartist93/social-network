@@ -1,15 +1,24 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { client } from "../../api/client";
+
+// fetch posts thunk
+export const fetchPosts = createAsyncThunk(
+  "posts/fetchPosts",
+  async (dispatch, getState) => {
+    const response = await client.get("/fakeApi/posts");
+    console.log("Server responsed with");
+    console.log(response);
+    return response.posts;
+  }
+);
 
 export const postSlice = createSlice({
   name: "posts",
   initialState: {
-    list: [
-      // { id: "1", title: "post 1", content: "Post 1 content", author: "1" },
-      // { id: "2", title: "post 2", content: "Post 2 content", author: "2" }
-    ],
-    config: {
-      reversed: true
-    }
+    list: [],
+    reversed: true,
+    status: "idle",
+    error: false
   },
   reducers: {
     addPost: {
@@ -19,21 +28,23 @@ export const postSlice = createSlice({
       // addPost(title, contnt, author)
       // then prepare the payload object
       // return an object that content the payload
-      prepare: (title, content, author) => {
+      prepare: (title, content, user) => {
         const id = nanoid();
-        const createdAt = new Date().toISOString();
+        const date = new Date().toISOString();
         return {
           payload: {
             id,
             title,
             content,
-            author,
-            createdAt,
+            user,
+            date,
             edit: false,
-            reaction: {
-              like: 0,
-              celebrate: 0,
-              love: 0
+            reactions: {
+              thumbsUp: 0,
+              hooray: 0,
+              heart: 0,
+              rocket: 0,
+              eyes: 0
             }
           }
         };
@@ -48,52 +59,48 @@ export const postSlice = createSlice({
         if (post) {
           post.title = title;
           post.content = content;
-          post.author = author;
+          post.user = author;
           post.edit = true;
           post.editedAt = editedAt;
         }
       },
-      prepare: (id, title, content, author) => {
+      prepare: (id, title, content, user) => {
         return {
           payload: {
             id,
             title,
             content,
-            author
+            user
           }
         };
       }
     },
     reverseOrder: (state) => {
-      state.config.reversed = !state.config.reversed;
+      state.reversed = !state.reversed;
     },
     addReact: {
       reducer: (state, action) => {
-        const { reactionIndex, postID } = action.payload;
+        const { reaction, postID } = action.payload;
         const post = state.list.find((post) => post.id === postID);
-
-        switch (reactionIndex) {
-          case 0:
-            post.reaction.like += 1;
-            break;
-          case 1:
-            post.reaction.celebrate += 1;
-            break;
-          case 2:
-            post.reaction.love += 1;
-            break;
-          default:
-            break;
-        }
+        post.reactions[reaction] += 1;
       },
-      prepare: (reactionIndex, postID) => {
+      prepare: (reaction, postID) => {
         return {
           payload: {
-            reactionIndex,
+            reaction,
             postID
           }
         };
       }
+    }
+  },
+  extraReducers: {
+    [fetchPosts.pending]: (state) => {
+      state.status = "pending";
+    },
+    [fetchPosts.fulfilled]: (state, action) => {
+      state.state = "completed";
+      state.list = action.payload;
     }
   }
 });

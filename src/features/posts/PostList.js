@@ -1,25 +1,28 @@
-import React from "react";
-
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Post from "./Post";
-
-import { selectPosts, reverseOrder } from "./postSlice";
+import { selectPosts, reverseOrder, fetchPosts } from "./postSlice";
 
 const PostList = () => {
   const posts = useSelector(selectPosts);
-  const reversedPosts = posts
-    .slice()
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const reversed = useSelector((state) => state.posts.reversed);
+  const status = useSelector((state) => state.posts.status);
 
   const dispatch = useDispatch();
 
-  const handleReverse = () => {
-    dispatch(reverseOrder());
-  };
+  const reversedPosts = posts
+    .slice()
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const displayedPosts = reversed ? reversedPosts : posts;
 
-  const reversedState = useSelector((state) => state.posts.config.reversed);
+  const handleReverse = () => dispatch(reverseOrder());
 
-  const displayedPosts = reversedState ? reversedPosts : posts;
+  // fetch the posts from the server only the first time the componend mount.
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchPosts());
+    }
+  }, [status, dispatch]);
 
   return (
     <div

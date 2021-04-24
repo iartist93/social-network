@@ -6,6 +6,8 @@ import PostAuthor from "./PostAuthor";
 import PostReaction from "./PostReaction";
 
 const Post = ({ post }) => {
+  console.log(post);
+
   return (
     <article
       key={post.id}
@@ -25,10 +27,10 @@ const Post = ({ post }) => {
         <h3>{post.title}</h3>
       </Link>
       <h4>
-        By <PostAuthor userID={post.author} /> {"  "}
+        By <PostAuthor userID={post.user} /> {"  "}
         <PostTimestamp postID={post.id} />
       </h4>
-      <p>{post.content}</p>
+      <p>{post.content.slice(0, 100)}</p>
       <PostReaction post={post} />
     </article>
   );

@@ -7,11 +7,14 @@ const PostAuthor = ({ userID }) => {
   const user = useSelector((state) =>
     state.users.list.find((user) => user.id === userID)
   );
-  console.log(user);
 
   return (
     <span>
-      <Link to={`/user/${user.id}`}>{user ? user.name : "Unknow Author"}</Link>
+      {user ? (
+        <Link to={`/user/${user.id}`}>{user.name}</Link>
+      ) : (
+        "Unknow Author"
+      )}
     </span>
   );
 };
