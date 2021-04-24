@@ -5,7 +5,6 @@ export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (dispatch, getState) => {
     const response = await client.get("/fakeApi/users");
-    console.log(response);
     return response.users;
   }
 );

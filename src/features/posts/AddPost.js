@@ -1,36 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "./postSlice";
+import { addPost, addNewPost } from "./postSlice";
 import { selectUsers, addUserPost } from "../users/userSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const AddPost = () => {
   const dispatch = useDispatch();
-
   const users = useSelector(selectUsers);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("1");
+  const [user, setUser] = useState("");
+  const [status, setStatus] = useState("idle");
+
+  useEffect(() => {
+    setUser(users[0].id);
+  }, [users]);
 
   const handleTitleChange = (event) => setTitle(event.target.value);
   const handleContentChange = (event) => setContent(event.target.value);
-  const handleAuthorChange = (event) => setAuthor(event.currentTarget.value);
+  const handleAuthorChange = (event) => setUser(event.currentTarget.value);
 
-  const addNewPost = (event) => {
+  const handleAddNewPost = async (event) => {
     // simple validation
     if (title && content) {
-      console.log(`Author = ${author}`);
+      setStatus("pending");
       event.preventDefault();
-      dispatch(addPost(title, content, author));
-      dispatch(addUserPost(author, title));
-      // reset fields
-      setTitle("");
-      setContent("");
+      try {
+        const result = await dispatch(
+          addNewPost({ title, content, userId: user })
+        );
+        unwrapResult(result);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        // dispatch(addUserPost(user, title));
+        // reset fields
+        setTitle("");
+        setContent("");
+        setStatus("idle");
+      }
     }
   };
 
-  const isEmpty = () =>
-    title.trim().length === 0 || content.trim().length === 0;
+  const canPost = () => !([title, content].every(Boolean) && status === "idle");
 
   return (
     <div
@@ -68,14 +81,14 @@ const AddPost = () => {
           onChange={handleContentChange}
         />
         <label htmlFor="postAuthor"> Author </label>
-        <select id="postAuthor" value={author} onChange={handleAuthorChange}>
+        <select id="postAuthor" value={user} onChange={handleAuthorChange}>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}
             </option>
           ))}
         </select>
-        <button onClick={addNewPost} disabled={isEmpty()}>
+        <button onClick={handleAddNewPost} disabled={canPost()}>
           Add Post
         </button>
       </form>

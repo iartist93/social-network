@@ -1,14 +1,22 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  nanoid,
+  unwrapResult
+} from "@reduxjs/toolkit";
 import { client } from "../../api/client";
 
 // fetch posts thunk
-export const fetchPosts = createAsyncThunk(
-  "posts/fetchPosts",
-  async (dispatch, getState) => {
-    const response = await client.get("/fakeApi/posts");
-    return response.posts;
-  }
-);
+export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
+  const response = await client.get("/fakeApi/posts");
+  return response.posts;
+});
+
+// POST the new post to the server and then update the state
+export const addNewPost = createAsyncThunk("posts/addNewPost", async (post) => {
+  const response = await client.post("/fakeApi/posts", { post });
+  return response.post;
+});
 
 export const postSlice = createSlice({
   name: "posts",
@@ -99,6 +107,9 @@ export const postSlice = createSlice({
     [fetchPosts.fulfilled]: (state, action) => {
       state.state = "completed";
       state.list = action.payload;
+    },
+    [addNewPost.fulfilled]: (state, action) => {
+      state.list.push(action.payload);
     }
   }
 });
