@@ -6,11 +6,8 @@ import PostAuthor from "./PostAuthor";
 import PostReaction from "./PostReaction";
 
 const Post = ({ post }) => {
-  console.log(post);
-
   return (
     <article
-      key={post.id}
       style={{
         minHeight: 150,
         width: 500,

@@ -6,8 +6,6 @@ export const fetchPosts = createAsyncThunk(
   "posts/fetchPosts",
   async (dispatch, getState) => {
     const response = await client.get("/fakeApi/posts");
-    console.log("Server responsed with");
-    console.log(response);
     return response.posts;
   }
 );

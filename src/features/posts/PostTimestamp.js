@@ -4,8 +4,7 @@ import {
   formatDistance,
   formatRelative,
   parseISO,
-  formatDistanceToNow,
-  subDays
+  formatDistanceToNow
 } from "date-fns";
 
 const PostTimestamp = ({ postID, edited = false }) => {
@@ -19,8 +18,6 @@ const PostTimestamp = ({ postID, edited = false }) => {
   const dateDiff = Math.floor(
     (currentDateMS - postDateMS) / (1000 * 60 * 60 * 24)
   );
-
-  console.log(formatDistanceToNow(subDays(new Date(post.date), 10)));
 
   return (
     <>
